@@ -12,23 +12,22 @@ import tflearn.datasets.mnist as mt
 
 trainX, trainY, testX, testY = mt.load_data(one_hot=True)
 
-def build_model():
-    tf.reset_default_graph()
+
+tf.reset_default_graph()
     
-    net=tflearn.input_data([None, 784])
+net=tflearn.input_data([None, 784])
     
-    net = tflearn.fully_connected(net, 450, activation='Linear')
-    net = tflearn.fully_connected(net, 20, activation='Linear')
+net = tflearn.fully_connected(net, 242, activation='relu6')
+net = tflearn.fully_connected(net, 542, activation='relu6')
     #net = tflearn.fully_connected(net, 10, activation='Linear')
     
-    net = tflearn.fully_connected(net, 10, activation='softmax')
-    net = tflearn.regression(net, optimizer='sgd', learning_rate=0.01, loss='categorical_crossentropy')
+net = tflearn.fully_connected(net, 10, activation='softmax')
+net = tflearn.regression(net, optimizer='Adam', learning_rate=0.001, loss='categorical_crossentropy')
     
-    model = tflearn.DNN(net)
-    return model
-
-model = build_model()
-model.fit(trainX, trainY, validation_set=0.1, show_metric=True, batch_size=100, n_epoch=10)
+model = tflearn.DNN(net)
+#return model
+#model = build_model()
+model.fit(trainX, trainY, validation_set=0.1, show_metric=True, batch_size=196, n_epoch=14)
 
 predictions = np.array(model.predict(testX)).argmax(axis=1)
 
